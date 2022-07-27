@@ -88,6 +88,27 @@ app.get("/magic/:phrase", (req, res) => {
   );
 });
 
+//Fibonacci
+function isSquare(num) {
+  return num > 0 && Math.sqrt(num) % 1 === 0;
+}
+
+function isFibNum(num) {
+  if (num < 0) {
+    return `I can tell ${num} is not a fibonacci number.`;
+  } else {
+    if (isSquare(5 * num ** 2 + 4) || isSquare(5 * num ** 2 - 4)) {
+      return `Very good. ${num} is Fibonacci.`;
+    } else {
+      return `I can tell ${num} is not a fibonacci number.`;
+    }
+  }
+}
+
+app.get("/fibonacci/:num", (req, res) => {
+  res.send(`${isFibNum(req.params.num)}`);
+});
+
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
