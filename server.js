@@ -30,6 +30,40 @@ function getRandomInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+app.get("/", (req, res) => {
+  res.send(
+    `99 Cups of tea on the wall. <br> <a href="/98">Take one down, pass it around</a>`
+  );
+});
+
+app.get("/:num", (req, res) => {
+  let randomness = getRandomInclusive(0, 1);
+  if (req.params.num === "0") {
+    res.redirect("/");
+  } else if (randomness === 0) {
+    res.send(
+      `${req.params.num} Cups of tea on the wall.
+          <br> 
+          <a href="/${
+            parseInt(req.params.num) - 1
+          }">Take one down, pass it around</a>`
+    );
+  } else if (randomness === 1) {
+    let randomStock = getRandomInclusive(0, 5);
+    res.send(
+      `${req.params.num} Cups of tea on the wall.
+        ${randomStock} Cups of tea just got restocked.
+        There are now ${
+          parseInt(req.params.num) + randomStock
+        } Cups of tea on the wall.
+        <br> 
+        <a href="/${
+          parseInt(req.params.num) + randomStock - 1
+        }">Take one down, pass it around</a>`
+    );
+  }
+});
+
 app.get("/greeting", (req, res) => {
   res.send("Hello, Stranger");
 });
